@@ -1,17 +1,15 @@
-reports = []
-safe = 0
-
+list1 = []
+list2 = []
+simscore = 0
 with open('input.txt', 'r') as file:
     for line in file:
-        reports.append(list(map(int, line.split())))
-
-for report in reports:
-    check = False
-    if report == sorted(report) or report == sorted(report, reverse=True):
-        check = True
-        for i in range(1, len(report)):
-            if abs(report[i] - report[i-1]) < 1 or abs(report[i] - report[i-1]) > 3:
-                check = False
-        if check: safe += 1
-
-print(safe)
+        num1, num2 = map(int, line.split())
+        list1.append(num1)
+        list2.append(num2)
+list1.sort()
+list2.sort()
+for i in list1:
+    for j in list2:
+        if i == j:
+            simscore = simscore + i
+print(simscore)
