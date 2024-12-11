@@ -1,6 +1,5 @@
 import time
 
-# set the starting disk_map
 def initialize_stones():
     with open('input.txt', 'r') as file:
         return file.read().strip().split()
