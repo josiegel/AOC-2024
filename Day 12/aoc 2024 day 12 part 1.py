@@ -1,4 +1,19 @@
 import time
+NORTH = (-1, 0)
+SOUTH = (+1, 0)
+EAST = (0, +1)
+WEST = (0, -1)
+
+def move(point, direction):
+    return (point[0] + direction[0], point[1] + direction[1])
+
+def get_neighbors(point, grid = []):
+    neighbors = []
+    for direction in [NORTH, SOUTH, EAST, WEST]:
+        neighbor = move(point, direction)
+        if grid == [] or (0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0])):
+            neighbors.append(neighbor)
+    return neighbors
 
 def initialize_garden():
     garden = []
@@ -16,9 +31,9 @@ def find_region(garden, region):
     crop = garden[region[0][0]][region[0][1]]
     i = 0
     while i < len(region):
-        neighbors = [(region[i][0]+1, region[i][1]),(region[i][0]-1, region[i][1]),(region[i][0], region[i][1]+1),(region[i][0], region[i][1]-1)]
+        neighbors = get_neighbors(region[i], garden)
         for neighbor in neighbors:
-            if neighbor not in region and 0 <= neighbor[0] < len(garden) and 0 <= neighbor[1] < len(garden) and garden[neighbor[0]][neighbor[1]] == crop:
+            if neighbor not in region and garden[neighbor[0]][neighbor[1]] == crop:
                 region.append(neighbor)
         i += 1
     return region
@@ -37,7 +52,7 @@ def get_regions(garden):
 def get_price(region):
     perimeter = 0
     for plot in region:
-        neighbors = [(plot[0]+1, plot[1]),(plot[0]-1, plot[1]),(plot[0], plot[1]+1),(plot[0], plot[1]-1)]
+        neighbors = get_neighbors(plot)
         for neighbor in neighbors:
             if neighbor not in region:
                 perimeter += 1
